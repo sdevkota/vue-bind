@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue JS-Vue Bind</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="nav-bar">
+        <a href="#home" class="active">Home</a>
+        <a href="#contact">Contact</a>
+        <a href="#about">About</a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+    <div id="app">
+        <input type="text" placeholder="Enter your todo items" v-model="todo">
+        <button @click="addToDoItems">Click here to add</button>
+        <ul>
+            <li v-for="(item,index) in items">{{item}} &nbsp;
+                <span @click="deleteTodo(index)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </span>
+            </li>
+        </ul>
+
+        <br/>
+        <button :title="title">Hover over to see the title</button>
+        <button :class="{'is-loading':isLoading}" @click="toggleClass">Toggle Red</button>
+
+        <h4>Using Computed Property to reverse the last item in the array</h4>
+        <p>{{reversedItem}}</p>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                todo: "",
+                title: "Title from JS",
+                className: "color-red",
+                isLoading: false,
+                items: []
+            },
+            methods: {
+                addToDoItems() {
+                    if (this.todo) {
+                        this.items.push(this.todo);
+                        this.todo = "";
+                    }
+                },
+                deleteTodo(index) {
+                    if (index > -1 && this.items) {
+                        this.items.splice(index, 1);
+                    }
+                },
+                toggleClass() {
+                    this.isLoading = !this.isLoading;
+
+                }
+            },
+            computed: {
+                reversedItem() {
+                    if(this.items.length){
+                        return this.items[this.items.length-1].split('').reverse().join('');
+                    }
+
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
